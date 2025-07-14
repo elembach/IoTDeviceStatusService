@@ -1,5 +1,3 @@
-Ubiety Entry-Level Backend Engineer Take-Home Assessment\
-Elizabeth Lembach
 
 This project is a Flask-based backend service that works to store and serve data to the specified internal systems.
 
