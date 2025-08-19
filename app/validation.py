@@ -5,5 +5,5 @@ class StatusSchema(Schema):
     device_id = fields.Str(required=True)
     time_stamp = fields.DateTime(required=True)
     battery_level = fields.Int(required=True, validate=validate.Range(min=0, max=100))
-    rssi = fields.Int(required=True)
+    rssi = fields.Int(required=True, validate=validate.Range(min=-100, max=0))
     online = fields.Bool(required=True)

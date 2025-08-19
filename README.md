@@ -61,3 +61,10 @@ How Testing and Validation Could be Integrated into CI/CD:\
 In order to integrate the testing and validation into a CI pipeline, you could define a CI workflow that
 is able to run the testing suite every time that code is pushed into a repo, opened as a pull request, or merged into a mian branch.
 In CD deployment, you would only want to deploy the service once testing is through and complete. Further integration testing would be needed.
+
+Sources:
+https://www.geeksforgeeks.org/python/flask-blueprints/
+https://auth0.com/blog/developing-restful-apis-with-python-and-flask/
+https://www.geeksforgeeks.org/python/python-build-a-rest-api-using-flask/
+https://www.youtube.com/watch?app=desktop&v=7dgQRVqF1N0&t=1558s
+https://www.youtube.com/watch?v=Y5CA79rHEYQ

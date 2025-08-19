@@ -20,7 +20,6 @@ def requires_auth(f):
         # Checks is the header provided matches the API Key and returns error if not
         if auth != current_app.config["API_KEY"]:
             return jsonify({"error": "Unauthorized"}), 401
-        print("Headers received:", dict(request.headers))
         # If it matches, then original function can be returned
         return f(*args, **kwargs)
     return decorated

@@ -35,6 +35,20 @@ def client():
 headers = {"Authorization": "supertopsecretkey!"}
 
 
+# Tests the api key functionality, incorrect api key should throw 401 error
+def test_wrong_auth(client):
+    data = {
+        "device_id": "computer456",
+        "time_stamp": "2025-06-30T09:00:00Z",
+        "battery_level": 50,
+        "rssi": -50,
+        "online": True,
+    }
+    wrong_headers = {"Authorization": "wrong_key"}
+    response = client.post("/status", json=data, headers=wrong_headers)
+    assert response.status_code == 401
+
+
 # Overall test checks when data is in valid format
 def test_valid_data():
     valid_data = {
@@ -69,7 +83,7 @@ def test_invalid_battery_level():
     invalid_data = {
         "device_id": "computer456",
         "time_stamp": "2025-06-30T09:00:00Z",
-        "battery_level": 150,  # invalid: >100
+        "battery_level": 150,
         "rssi": -50,
         "online": True,
     }
@@ -193,17 +207,3 @@ def test_empty_history(client):
     assert response.status_code == 404
     data = response.get_json()
     assert "error" in data
-
-
-# Tests the api key functionality, incorrect api key should throw 401 error
-def test_wrong_auth(client):
-    data = {
-        "device_id": "computer456",
-        "time_stamp": "2025-06-30T09:00:00Z",
-        "battery_level": 50,
-        "rssi": -50,
-        "online": True,
-    }
-    wrong_headers = {"Authorization": "wrong_key"}
-    response = client.post("/status", json=data, headers=wrong_headers)
-    assert response.status_code == 401
