@@ -52,7 +52,7 @@ def test_valid_data():
 # Tests to see if error is thrown when a field is missing
 def test_missing_fields():
     invalid_data = {
-        "device_id": "ipad-121415"
+        "device_id": "ipad121415"
         # Missing all other required fields
     }
     with pytest.raises(ValidationError) as exc_info:
@@ -124,7 +124,7 @@ def test_post_valid_status(client):
     assert data["device_id"] == "computer123"
 
 
-# Tests if there is no status, that an error is thrown
+# Tests if there is no status, that a 404 error is thrown
 def test_get_invalid_status(client):
     response = client.get('/status/device-does-not-exist', headers=headers)
     assert response.status_code == 404
@@ -185,3 +185,25 @@ def test_status_history(client):
     assert history[1]["time_stamp"] == second_data["time_stamp"]
     assert history[2]["time_stamp"] == third_data["time_stamp"]
     assert history[3]["time_stamp"] == fourth_data["time_stamp"]
+
+
+# Tests that history for device with no records returns 404 status code
+def test_empty_history(client):
+    response = client.get("/status/nonexistent-device/history", headers=headers)
+    assert response.status_code == 404
+    data = response.get_json()
+    assert "error" in data
+
+
+# Tests the api key functionality, incorrect api key should throw 401 error
+def test_wrong_auth(client):
+    data = {
+        "device_id": "computer456",
+        "time_stamp": "2025-06-30T09:00:00Z",
+        "battery_level": 50,
+        "rssi": -50,
+        "online": True,
+    }
+    wrong_headers = {"Authorization": "wrong_key"}
+    response = client.post("/status", json=data, headers=wrong_headers)
+    assert response.status_code == 401
